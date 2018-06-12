@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BrightnessRegulator : MonoBehaviour {
 
+	public static int score = 0;
 	// Materialを入れる
 	Material myMaterial;
 
@@ -18,15 +20,23 @@ public class BrightnessRegulator : MonoBehaviour {
 	// ターゲットのデフォルトの色
 	Color defaultColor = Color.white;
 
+	int defaultScore = 0;
+	private GameObject scoreText;
+
 	// Use this for initialization
 	void Start () {
+		this.scoreText = GameObject.Find("ScoreText");
+
 		// タグによって光らせる色を変える
 		if (tag == "SmallStarTag") {
 			this.defaultColor = Color.white;
+			this.defaultScore = 10;
 		} else if (tag == "LargeStarTag") {
 			this.defaultColor = Color.yellow;
+			this.defaultScore = 200;
 		}else if(tag == "SmallCloudTag" || tag == "LargeCloudTag") {
 			this.defaultColor = Color.cyan;
+			this.defaultScore = 50;
 		}
 
 		//オブジェクトにアタッチしているMaterialを取得
@@ -54,5 +64,8 @@ public class BrightnessRegulator : MonoBehaviour {
 	void OnCollisionEnter(Collision other) {
 		//角度を180に設定
 		this.degree = 180;
+		score += this.defaultScore;
+		this.scoreText.GetComponent<Text> ().text = "Score : " + score;
+
 	}
 }
