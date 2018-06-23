@@ -28,6 +28,18 @@ public class FripperController : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.RightArrow) && tag == "RightFripperTag"){
 			SetAngle(this.defaultAngle);
 		}
+
+		foreach (Touch touch in Input.touches){
+			Debug.Log(touch.position.x);
+			bool isleft = touch.position.x < -0.7f;
+			if (isleft && tag == "LeftFripperTag" || !isleft && tag == "RightFripperTag") {
+				if (touch.phase == TouchPhase.Began){
+					SetAngle(this.flickAngle);
+				} else if (touch.phase == TouchPhase.Ended) {
+					SetAngle(this.defaultAngle);
+				}
+			}
+		}
 	}
 
 	public void SetAngle(float angle){
